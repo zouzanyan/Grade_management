@@ -18,4 +18,5 @@ MingW（Minimalist GNU on Windows）是一个Linux/Windows下的可以把软件�
 
 ### 使用说明
 gcc main.c -o main
+
 ./main
