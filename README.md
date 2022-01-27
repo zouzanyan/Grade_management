@@ -20,3 +20,5 @@ MingW（Minimalist GNU on Windows）是一个Linux/Windows下的可以把软件�
 gcc main.c -o main
 
 ./main
+
+#### 其他疑问请加qq1406823510
