@@ -1,4 +1,5 @@
-#define _CRT_SECURE_NO_WARNINGS
+#pragma warning(disable:6031)
+#pragma warning(disable:4996)
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -98,46 +99,47 @@ void insert_head(Node* head)
 //查找个人信息
 void search(Node* head)
 {
-    Node *p = head;
+    Node* p = head;
     printf("1.通过姓名检索\n");
     printf("2.通过学号检索\n");
     int a;
     scanf("%d", &a);
-    if(a == 1)
+    if (a == 1)
     {
-        char name[NAME_MAXSIZE];
+        char name[NAME_MAXSIZE] = {0};
         printf("请输入学生姓名\n");
         scanf("%s", name);
-        while(1)
+        while (1)
         {
             p = p->Next;
-            if(p == NULL)
+            if (p == NULL)
             {
                 printf("未找到该姓名的学生信息\n");
                 break;
             }
-            if(strcmp(name, p->student.name) == 0)
+            if (strcmp(name, p->student.name) == 0)
             {
                 printf("该学生信息:\n");
+                printf("姓名\t\t性别\t\t学号\t\t\t中文分数\t外语分数\t专业分数\n");
                 printf("%s\t\t%s\t\t%s\t\t\t%.1f\t\t%.1f\t\t%.1f\n", p->student.name, p->student.sex, p->student.num, p->student.ch_score, p->student.en_score, p->student.job_score);
                 break;
             }
         }
     }
-    else if(a == 2)
+    else if (a == 2)
     {
-        char num[NUM_MAXSIZE];
+        char num[NUM_MAXSIZE] = {0};
         printf("请输入学生学号\n");
         scanf("%s", num);
-        while(1)
+        while (1)
         {
             p = p->Next;
-            if(p == NULL)
+            if (p == NULL)
             {
                 printf("未找到该姓名的学生信息\n");
                 break;
             }
-            if(strcmp(num, p->student.num) == 0)
+            if (strcmp(num, p->student.num) == 0)
             {
                 printf("该学生信息:\n");
                 printf("%s\t\t%s\t\t%s\t\t\t%.1f\t\t%.1f\t\t%.1f\n", p->student.name, p->student.sex, p->student.num, p->student.ch_score, p->student.en_score, p->student.job_score);
@@ -164,7 +166,7 @@ void del(Node* head)
     {
         char sign = '0';
         printf("请输入学生的姓名\n");
-        char name[NAME_MAXSIZE] = {0};
+        char name[NAME_MAXSIZE] = { 0 };
         scanf("%s", name);
         while (1)
         {
@@ -204,7 +206,7 @@ void del(Node* head)
     {
         char a = '0';
         printf("请输入学生的学号\n");
-        char num[NUM_MAXSIZE] = {0};
+        char num[NUM_MAXSIZE] = { 0 };
         scanf("%s", num);
         while (1)
         {
@@ -251,20 +253,20 @@ void revise(Node* head)
     printf("2.通过学号检索修改\n");
     int a = 0;
     scanf("%d", &a);
-    if(a == 1) //姓名检索
+    if (a == 1) //姓名检索
     {
         printf("请输入学生的姓名\n");
         char name[NAME_MAXSIZE];
         scanf("%s", name);
-        while(1)
+        while (1)
         {
             p = p->Next;
-            if(p == NULL)
+            if (p == NULL)
             {
                 printf("未找到该姓名的学生信息\n");
                 break;
             }
-            if(strcmp(name, p->student.name) == 0)
+            if (strcmp(name, p->student.name) == 0)
             {
                 printf("已检索到此人\n");
                 printf("请输入修改后学生的姓名\n");
@@ -284,20 +286,20 @@ void revise(Node* head)
             }
         }
     }
-    else if(a == 2) //学号检索
+    else if (a == 2) //学号检索
     {
         printf("请输入学生的学号\n");
         char num[NUM_MAXSIZE];
         scanf("%s", num);
-        while(1)
+        while (1)
         {
             p = p->Next;
-            if(p == NULL)
+            if (p == NULL)
             {
                 printf("未找到该学号的学生信息\n");
                 break;
             }
-            if(strcmp(num, p->student.num) == 0)
+            if (strcmp(num, p->student.num) == 0)
             {
                 printf("已检索到此人\n");
                 printf("请输入修改后学生的姓名\n");
@@ -326,21 +328,79 @@ void revise(Node* head)
 
 void analyse(Node* head)
 {
-    float ch_hign; //最高分
-    float en_hign;
-    float job_hign;
-    float ch_low; // 最低分
-    float en_low;
-    float job_low;
-    double ch_average; //平均分
-    double en_average;
-    double job_average;
-    float ch_median; //中位数
-    float en_median;
-    float job_median;
+    float ch_hign = 0; //最高分
+    float en_hign = 0;
+    float job_hign = 0;
+    float ch_low = 0; // 最低分
+    float en_low = 0;
+    float job_low = 0;
+    double ch_average = 0; //平均分
+    double en_average = 0;
+    double job_average = 0;
+    Node* p = head->Next;
+    Node* q = p;
+
+    if (p == NULL)
+    {
+        printf("列表为空\n");
+    }
+    else if (p->Next == NULL)
+    {
+        ch_hign = p->student.ch_score;
+        ch_low = p->student.ch_score;
+        en_hign = p->student.en_score;
+        en_low = p->student.en_score;
+        job_hign = p->student.job_score;
+        job_low = p->student.job_score;
+        ch_average = p->student.ch_score / nodenum;
+        en_average = p->student.en_score / nodenum;
+        job_average = p->student.job_score / nodenum;
+    }
+    else
+    {
+        ch_hign = p->student.ch_score;
+        ch_low = p->student.ch_score;
+        en_hign = p->student.en_score;
+        en_low = p->student.en_score;
+        job_hign = p->student.job_score;
+        job_low = p->student.job_score;
+        for (int i = nodenum - 1; i > 0; i--)
+        {
+            q = p;
+            p = p->Next;
+            ch_average += p->student.ch_score / nodenum;
+            en_average += p->student.en_score / nodenum;
+            job_average += p->student.job_score / nodenum;
+            if (ch_hign < p->student.ch_score)
+                ch_hign = p->student.ch_score;
+            if (ch_low > p->student.ch_score)
+                ch_low = p->student.ch_score;
+            if (en_hign < p->student.en_score)
+                en_hign = p->student.en_score;
+            if (en_low > p->student.en_score)
+                en_low = p->student.en_score;
+            if (job_hign < p->student.job_score)
+                job_hign = p->student.job_score;
+            if (job_low > p->student.job_score)
+                job_low = p->student.job_score;
+        }
+        ch_average += head->Next->student.ch_score / nodenum;
+        en_average += head->Next->student.en_score / nodenum;
+        job_average += head->Next->student.job_score / nodenum;
+        printf("中文最高分为 %.1f\n", ch_hign);
+        printf("中文最低分为 %.1f\n", ch_low);
+        printf("中文平均分为 %.2lf\n\n", ch_average);
+        printf("外语最高分为 %.1f\n", en_hign);
+        printf("外语最低分为 %.1f\n", en_low);
+        printf("外语平均分为 %.2lf\n\n", en_average);
+        printf("专业最高分为 %.1f\n", job_hign);
+        printf("专业最低分为 %.1f\n", job_low);
+        printf("专业平均分为 %.2lf\n", job_average);
+    }
 }
 
-void sort(Node* head)
+
+void sort(Node* head) //排序
 {
     Node* p = head->Next;
     Node* q = p;
@@ -351,20 +411,20 @@ void sort(Node* head)
     Stu t;
     int sign;
     scanf("%d", &sign);
-    if(sign == 1)
+    if (sign == 1)
     {
-        if(p == NULL)
+        if (p == NULL)
         {
             printf("列表为空\n");
             return;
         }
-        for(int i = nodenum-1; i > 0; i--)//冒泡排序
+        for (int i = nodenum - 1; i > 0; i--)//冒泡排序
         {
-            for(int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++)
             {
                 q = p;
                 p = p->Next;
-                if(p->student.ch_score > q->student.ch_score)
+                if (p->student.ch_score > q->student.ch_score)
                 {
                     t = p->student;
                     p->student = q->student;
@@ -374,23 +434,23 @@ void sort(Node* head)
             p = head->Next; //每得到一个最大的数要把指针初始化
             q = p;
         }
-    printf("排列完成!\n");
+        printf("排列完成!\n");
     }
-    if(sign == 2)
+    if (sign == 2)
     {
-        if(p == NULL)
+        if (p == NULL)
         {
             printf("列表为空\n");
             return;
         }
-        for(int i = nodenum-1; i > 0; i--) //冒泡排序
+        for (int i = nodenum - 1; i > 0; i--) //冒泡排序
         {
 
-            for(int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++)
             {
                 q = p;
                 p = p->Next;
-                if(p->student.en_score > q->student.en_score)
+                if (p->student.en_score > q->student.en_score)
                 {
                     t = p->student;
                     p->student = q->student;
@@ -400,23 +460,23 @@ void sort(Node* head)
             p = head->Next;
             q = p;
         }
-            printf("排列完成!\n");
+        printf("排列完成!\n");
     }
-    if(sign == 3)
+    if (sign == 3)
     {
-        if(p == NULL)
+        if (p == NULL)
         {
             printf("列表为空\n");
             return;
         }
-        for(int i = nodenum-1; i > 0; i--) //冒泡排序
+        for (int i = nodenum - 1; i > 0; i--) //冒泡排序
         {
 
-            for(int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++)
             {
                 q = p;
                 p = p->Next;
-                if(p->student.job_score > q->student.job_score)
+                if (p->student.job_score > q->student.job_score)
                 {
                     t = p->student;
                     p->student = q->student;
@@ -426,19 +486,23 @@ void sort(Node* head)
             p = head->Next;
             q = p;
         }
-            printf("排列完成!\n");
+        printf("排列完成!\n");
     }
 }
 
 void menu()
 {
-    printf(">>1.添加学生信息\n");
-    printf(">>2.查找学生信息\n");
-    printf(">>3.删除学生信息\n");
-    printf(">>4.显示所有信息\n");
-    printf(">>5.修改学生信息\n");
-    printf(">>6.排列学生信息\n");
-    printf("****************\n");
+    printf("---------- 学生成绩管理系统 -------\n");
+    printf("*                                 *\n");
+    printf("*********  1.添加学生信息  *********\n");
+    printf("*********  2.查找学生信息  *********\n");
+    printf("*********  3.删除学生信息  *********\n");
+    printf("*********  4.显示所有信息  *********\n");
+    printf("*********  5.修改学生信息  *********\n");
+    printf("*********  6.排列学生信息  *********\n");
+    printf("*********  7.分析学生数据  *********\n");
+    printf("*                                 *\n");
+    printf("-----------------------------------\n");
 }
 
 int main()
@@ -460,11 +524,13 @@ int main()
         case 4: showlist(head); system("pause"); break;
         case 5: revise(head); system("pause"); break;
         case 6: sort(head); system("pause"); break;
-        default: printf("error\n");system("pause"); break;
+        case 7: analyse(head); system("pause"); break;
+        default: printf("error\n"); system("pause"); break;
         }
         system("cls");
     }
     return 0;
 }
 
-
+//有时间再精简一下代码,代码目前比较杂乱冗余
+//qq1406823510  欢迎交流
