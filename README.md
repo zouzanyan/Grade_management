@@ -18,7 +18,7 @@ MingW（Minimalist GNU on Windows）是一个Linux/Windows下的可以把软件�
 
 ### 使用说明
 
-
+vs2019也可直接编译运行
 
 
 #### 其他疑问请加qq1406823510
